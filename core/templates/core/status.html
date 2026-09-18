@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Supermarket Chain — System Status</title>
+  <style>
+    body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; max-width: 640px; margin: 60px auto; color: #1a1a1a; padding: 0 16px; }
+    .ok { color: #0a7a2f; }
+    .fail { color: #b3261e; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 24px 28px; margin-bottom: 20px; }
+    dt { font-weight: 600; margin-top: 12px; }
+    dd { margin: 2px 0 0 0; color: #444; }
+    code { background: #f2f2f2; padding: 2px 6px; border-radius: 4px; }
+    button { padding: 8px 16px; }
+    a.button-link { display: inline-block; padding: 8px 16px; background: #1a1a1a; color: #fff; text-decoration: none; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>System Status</h1>
+
+  <div class="card">
+    <p>Django is running (version {{ django_version }}).</p>
+    {% if db_ok %}
+      <p class="ok"><strong>PostgreSQL connection: OK</strong></p>
+      <dl>
+        <dt>Database</dt><dd><code>{{ db_name }}</code> on <code>{{ db_host }}</code></dd>
+        <dt>Server reports</dt><dd>{{ db_version }}</dd>
+      </dl>
+    {% else %}
+      <p class="fail"><strong>PostgreSQL connection: FAILED</strong></p>
+      <dl>
+        <dt>Database</dt><dd><code>{{ db_name }}</code> on <code>{{ db_host }}</code></dd>
+        <dt>Error</dt><dd><code>{{ db_error }}</code></dd>
+      </dl>
+      <p>Check your <code>.env</code> file and confirm PostgreSQL is running and reachable.</p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    {% if user.is_authenticated %}
+      <p class="ok"><strong>Logged in</strong></p>
+      <dl>
+        <dt>Username</dt><dd>{{ user.username }}</dd>
+        <dt>Role</dt><dd>{{ user.get_role_display }}</dd>
+        <dt>Outlet</dt><dd>{{ user.outlet|default:"— (head office / admin)" }}</dd>
+      </dl>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+      </form>
+    {% else %}
+      <p>Not logged in.</p>
+      <a class="button-link" href="{% url 'login' %}">Log in</a>
+    {% endif %}
+  </div>
+</body>
+</html>

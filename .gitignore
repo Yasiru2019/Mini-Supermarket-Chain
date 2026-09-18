@@ -1,3 +1,23 @@
-# placeholder .gitignore — will be replaced once the tech stack is chosen
-.env
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Django
 *.log
+db.sqlite3
+media/
+
+# Environment / secrets — never commit real credentials
+.env
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
