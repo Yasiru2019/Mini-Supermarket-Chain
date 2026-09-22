@@ -46,9 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'core',      # status page
-    'outlets',   # Step 1: Outlet model
-    'accounts',  # Step 1: custom User model (role + outlet)
+    'core',       # status page
+    'outlets',    # Step 1: Outlet model
+    'accounts',   # Step 1: custom User model (role + outlet)
+    'inventory',  # Step 2: item catalogue (Category, Item)
 ]
 
 # Custom user model — must be set before the first migration ever runs.
